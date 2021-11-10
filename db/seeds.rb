@@ -9,3 +9,4 @@
 
 users = User.create([{ username: 'dev1', password: "123"}, { username: "dev2", password: "123"}])
 
+messages = Message.create([{ body: "This is a fake message", user: User.last }, { body: "This is another fake message", user: User.last }])
