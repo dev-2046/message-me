@@ -1,9 +1,15 @@
 class MessagesController < ApplicationController
   def create
     message = current_user.messages.build(params.require(:message).permit(:body))
-    if !message.save
-      flash[:error] = "something happened from sending your message"
+    if message.save
+      ActionCable.server.broadcast "chatroom_channel",
+                                    mod_message: message_render(message)
+  
     end
-    redirect_to root_path
+  
+  end
+
+  def message_render(message)
+    render(partial: "message", locals: { message: message })
   end
 end
